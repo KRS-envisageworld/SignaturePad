@@ -1,0 +1,79 @@
+.main{
+	display: flex;
+    top: 8vh;
+    position: absolute;
+	
+}
+.container {
+	display: flex;
+	position: relative;
+	top: 8vh;
+}
+
+.drawing-area {
+	box-shadow: 0 0 6px 0 #999;
+	margin: 20px 0;
+}
+
+.drawing-area:hover {
+	cursor: crosshair;
+}
+.active{
+	color:black !important;
+}
+.erase:hover {
+	cursor: url("../../../assets/images/eraser.svg"), auto !important;
+  }
+  .icon{
+	color: darkgray;
+  }
+  .icon:hover{
+	color:black 
+  }
+#clear-button{
+	margin-right: 10px;
+    color: black;
+}
+
+.active:hover{
+	color:black !important;
+}
+
+.signatureImg {
+	width: 30%;
+	height: 20vh;
+	border: 1px solid black;
+}
+
+.track {
+	display: flex;
+	flex-direction: column;
+}
+
+.dvAction {
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 60px;
+	display: flex;
+	align-items: center;
+	color: white;
+	justify-content: flex-end;
+	font-weight: 600;
+}
+
+.btnsettings{
+	color: rgba(99, 99, 99, 0.514);
+}
+
+.colorSelection{
+    top: 16px;
+    left: 8px;
+	width: 20px;
+    height: 20px;
+    border: 1px solid #a9a9a9;
+    border-radius: 50%;
+	cursor: pointer;
+	margin-top: 2px;
+	margin-right: 10px;
+}
