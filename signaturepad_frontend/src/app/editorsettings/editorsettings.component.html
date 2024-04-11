@@ -1,16 +1,33 @@
-<div class="dialog-title">
-  <h2>Preview Image</h2>
-  <button mat-icon-button (click)="download()">
-    <mat-icon>download</mat-icon>
-  </button>
+<h1 mat-dialog-title>Settings</h1>
+<div mat-dialog-content>
+  <!-- <input
+    [(colorPicker)]="color"
+    [cpOutputFormat]="'hex'"
+    [value]="color"
+    [cpOKButton] ="selectColor()"
+    [cpWidth]="'300px'"
+    [cpHeight]="'300px'"
+  /> -->
+  <span [style.background]="color"
+      [cpToggle]="true"
+      [cpDialogDisplay]="'inline'"
+      [cpOKButton] ="true"
+      [cpCancelButton]="true"
+      [(colorPicker)]="color"
+      [cpOutputFormat]="'hex'"
+          ></span>
+          <div layout="row">
+            <span flex class="subHeaderFont">Stoke Width</span>
+            <div flex>
+
+            
+            <mat-slider min="1" max="50" showTickMarks discrete [displayWith]="formatLabel.bind(this)" [value]="strokeWidth">
+              <input matSliderThumb>
+            </mat-slider>
+            <span class="subHeaderFont">{{strokeWidth}}</span>
+          </div>
+        </div>
 </div>
-<div >
-    <img
-    class="signatureImg box-shadow"
-    [src]="imgURL"
-    #signatureImg
-  />
-</div>
-<div class="footer">
-    <button mat-raised-button color="warn" mat-dialog-close>Close</button>
-</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" mat-dialog-close (click)="closeDialog()">Close</button>
+  </mat-dialog-actions>
