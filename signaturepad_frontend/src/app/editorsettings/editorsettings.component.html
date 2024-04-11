@@ -1,1 +1,16 @@
-<p>editorsettings works!</p>
+<div class="dialog-title">
+  <h2>Preview Image</h2>
+  <button mat-icon-button (click)="download()">
+    <mat-icon>download</mat-icon>
+  </button>
+</div>
+<div >
+    <img
+    class="signatureImg box-shadow"
+    [src]="imgURL"
+    #signatureImg
+  />
+</div>
+<div class="footer">
+    <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+</div>
