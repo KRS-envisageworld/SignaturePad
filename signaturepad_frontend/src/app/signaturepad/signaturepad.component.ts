@@ -45,15 +45,18 @@ export class SignaturepadComponent {
     dest_y: 0,
   };
 
-  open() {
-    if (!true) {
-      // Dont open the modal
-      this.content.nativeElement.modal('hide');
-    } else {
-      debugger;
-      // Open the modal
-      this.content.nativeElement.modal('show');
+  initializeCanvasStyle() {
+    if (this.canvasContext) {
+      this.canvasContext.strokeStyle = this.strokeColor;
+      this.canvasContext.shadowColor = 'red';
+      this.canvasContext.lineCap = 'round';
+      this.canvasContext.lineJoin = 'round';
+      this.canvasContext.lineWidth = this.strokeWidth;
     }
+  }
+
+  InitializeTrack() {
+    this.getTrackEntry();
   }
   enableEraser() {
     this.bErasing = !this.bErasing;
@@ -99,71 +102,73 @@ export class SignaturepadComponent {
     if (this.canvasContext) {
       this.initializeCanvasStyle();
     }
-    this.canvasObj.addEventListener("mousedown",  (e:MouseEvent) => {
-      this.onMouseDown(e);
-      }, false);
-      this.canvasObj.addEventListener("mouseup", (e) => {
-      this.MouseUp(e);
-      }, false);
-      this.canvasObj.addEventListener("mousemove", (e)=> {
-        this.onMouseMove(e);}, false);
+    this.canvasObj.addEventListener(
+      'mousedown',
+      (e: MouseEvent) => {
+        this.onMouseDown(e);
+      },
+      false
+    );
+    this.canvasObj.addEventListener(
+      'mouseup',
+      (e) => {
+        this.MouseUp(e);
+      },
+      false
+    );
+    this.canvasObj.addEventListener(
+      'mousemove',
+      (e) => {
+        this.onMouseMove(e);
+      },
+      false
+    );
 
     this.canvasObj.addEventListener(
       'touchstart',
       (e: TouchEvent) => {
         this.getTouchPos(e);
-        const touch = e.touches[0];
-        const mouseEvent = new MouseEvent('mousedown', {
-          clientX: touch.clientX,
-          clientY: touch.clientY,
-        });
-        this.canvasObj.dispatchEvent(mouseEvent);
-      console.log("touch start.")
+        e.preventDefault();
+        this.mouseDown = true;
+        this.canvasContext.beginPath();
+        this.canvasContext.moveTo(this.x_cordinate, this.y_cordinate);
+        console.log('touch start.');
       },
       false
     );
-    this.canvasObj.addEventListener("touchend", () => {
-      const mouseEvent = new MouseEvent("mouseup", {});
-      this.canvasObj.dispatchEvent(mouseEvent);
-      console.log("touch end.")
-  }, false);
-
-  this.canvasObj.addEventListener("touchmove", (e: TouchEvent) => {
-    this.getTouchPos(e);
-    const touch = e.touches[0];
-    const mouseEvent = new MouseEvent("mousemove", {
-        clientX: touch.clientX,
-        clientY: touch.clientY
-    });
-    this.canvasObj.dispatchEvent(mouseEvent);
-    console.log("touch move.")
-
-}, false);
-
+    
+    this.canvasObj.addEventListener(
+      'touchmove',
+      (e: TouchEvent) => {
+        debugger;
+        this.getTouchPos(e);
+        e.preventDefault();
+        if (this.mouseDown) {
+          if (this.bErasing == true) {
+            this.canvasContext.globalCompositeOperation = 'destination-out';
+          } else {
+            this.canvasContext.globalCompositeOperation = 'source-over';
+          }
+          this.canvasContext.lineTo(this.x_cordinate, this.y_cordinate);
+          this.canvasContext.stroke();
+        }
+        console.log('touch move.');
+      },
+      false
+    );
+    this.canvasObj.addEventListener(
+      'touchend',
+      () => {
+        const mouseEvent = new MouseEvent('mouseup', {});
+        this.canvasObj.dispatchEvent(mouseEvent);
+        this.mouseDown = false;
+        console.log('touch end.');
+      },
+      false
+    );
 
   }
 
-
-  
-  getTouchPos(touchEvent: TouchEvent) {
-    var rect = this.canvasObj.getBoundingClientRect();
-    (this.x_cordinate = touchEvent.touches[0].clientX - rect.left),
-    (this.y_cordinate = touchEvent.touches[0].clientY- rect.top < 0 ? 0 : touchEvent.touches[0].clientY - rect.top);
-  }
-
-  initializeCanvasStyle() {
-    if (this.canvasContext) {
-      this.canvasContext.strokeStyle = this.strokeColor;
-      this.canvasContext.shadowColor = 'red';
-      this.canvasContext.lineCap = 'round';
-      this.canvasContext.lineJoin = 'round';
-      this.canvasContext.lineWidth = this.strokeWidth;
-    }
-  }
-
-  InitializeTrack() {
-    this.getTrackEntry();
-  }
 
   getTrackEntry() {
     this.track = {
@@ -187,7 +192,7 @@ export class SignaturepadComponent {
   }
 
   onMouseMove(event: MouseEvent) {
-    debugger
+ 
     event.preventDefault();
     if (this.mouseDown) {
       this.getCursorPositionOnPad(event);
@@ -217,7 +222,14 @@ export class SignaturepadComponent {
     this.x_cordinate = event.x - rect.left;
     this.y_cordinate = event.y - rect.top < 0 ? 0 : event.y - rect.top;
   }
-
+  getTouchPos(touchEvent: TouchEvent) {
+    var rect = this.canvasObj.getBoundingClientRect();
+    this.x_cordinate = touchEvent.touches[0].clientX - rect.left;
+    this.y_cordinate =
+      touchEvent.touches[0].pageY - rect.top < 0
+        ? 0
+        : touchEvent.touches[0].pageY - rect.top;
+  }
   saveImage() {
     this.isSaveInProcess = true;
     this.imgURL = this.canvasObj.toDataURL('image/png');
