@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component,inject  } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule, VERSION } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'signaturepad_frontend';
+  version = VERSION.full
+  private router: Router = inject(Router)
 }

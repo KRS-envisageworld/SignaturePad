@@ -1,33 +1,38 @@
 <h1 mat-dialog-title>Settings</h1>
 <div mat-dialog-content>
-  <!-- <input
-    [(colorPicker)]="color"
-    [cpOutputFormat]="'hex'"
-    [value]="color"
-    [cpOKButton] ="selectColor()"
-    [cpWidth]="'300px'"
-    [cpHeight]="'300px'"
-  /> -->
-  <span [style.background]="color"
-      [cpToggle]="true"
-      [cpDialogDisplay]="'inline'"
-      [cpOKButton] ="true"
-      [cpCancelButton]="true"
-      [(colorPicker)]="color"
-      [cpOutputFormat]="'hex'"
-          ></span>
+  <!-- <span
+  class="colorSelection ms-auto"
+  [cpOKButton]="true"
+  [cpSaveClickOutside]="false"
+  [cpOKButtonClass]="'btn btn-primary btn-xs'"
+  [cpCancelButton]="true"
+  [cpOutputFormat]="'hex'"
+  cpPosition="auto"
+  title="Colors"
+></span> -->
+<input  class="colorSelection ms-auto" [value]="color"
+[cpOKButtonClass]="'btn btn-primary btn-xs'"
+       [style.background]="color"
+       [cpOKButton]="true"
+       [cpSaveClickOutside]="false"
+       [(colorPicker)]="color"
+       [cpOutputFormat]="'hex'"
+  cpPosition="auto"
+  title="Colors"
+  />
+
           <div layout="row">
             <span flex class="subHeaderFont">Stoke Width</span>
             <div flex>
 
             
-            <mat-slider min="1" max="50" showTickMarks discrete [displayWith]="formatLabel.bind(this)" [value]="strokeWidth">
-              <input matSliderThumb>
-            </mat-slider>
+            <!-- <mat-slider min="1" max="50" showTickMarks discrete [displayWith]="formatLabel.bind(this)"  [ariaValueNow]="strokeWidth"> -->
+              <!-- <input matSliderThumb> -->
+            <!-- </mat-slider> -->
             <span class="subHeaderFont">{{strokeWidth}}</span>
           </div>
         </div>
 </div>
-<mat-dialog-actions align="end">
-  <button mat-raised-button color="warn" mat-dialog-close (click)="closeDialog()">Close</button>
-  </mat-dialog-actions>
+<!-- <mat-dialog-actions align="end"> -->
+  <button mat-raised-button color="warn" mat-dialog-close >Close</button>
+  <!-- </mat-dialog-actions> -->

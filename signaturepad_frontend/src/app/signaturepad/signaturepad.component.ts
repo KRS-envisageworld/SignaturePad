@@ -1,25 +1,17 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ImageEditorComponent } from '../image-editor/image-editor.component';
-import { DrawingsettingsComponent } from '../drawingsettings/drawingsettings.component';
-
+import { PriviewComponent } from '../priview/priview.component';
+import { EditorsettingsComponent } from '../editorsettings/editorsettings.component';
+import { CommonModule } from '@angular/common';
+import { ColorPickerModule } from 'ngx-color-picker';
 @Component({
   selector: 'app-signaturepad',
   standalone: true,
-  imports: [],
+  imports: [CommonModule,ColorPickerModule],
   templateUrl: './signaturepad.component.html',
   styleUrl: './signaturepad.component.scss'
 })
 export class SignaturepadComponent {
 @ViewChild('canvas', { static: true }) canvas!: ElementRef;
-  @ViewChild('signatureImg', { static: true }) signatureImg: ElementRef;
-
-  /**
-   *
-   */
-  constructor(public matdialog: MatDialog) {}
-
-  canvasObj: HTMLCanvasElement;
   canvasContext: any;
   clearButton: any;
   saveButton: any;
@@ -33,7 +25,6 @@ export class SignaturepadComponent {
   bErasing: boolean = false;
   isSettingsOpen: boolean = false;
   isSaveInProcess: boolean = false;
-  @ViewChild('modal') content: ElementRef;
   undo: object[] = [];
   redo: object[] = [];
   track: any = {
@@ -44,6 +35,7 @@ export class SignaturepadComponent {
     dest_x: 0,
     dest_y: 0,
   };
+  canvasObj: HTMLCanvasElement;
 
   initializeCanvasStyle() {
     if (this.canvasContext) {
@@ -234,16 +226,16 @@ export class SignaturepadComponent {
     this.isSaveInProcess = true;
     this.imgURL = this.canvasObj.toDataURL('image/png');
 
-    const dialogRef = this.matdialog.open(ImageEditorComponent, {
-      width: '50%',
-      height: '60vh',
-      data: {
-        image: this.imgURL,
-      },
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      this.isSaveInProcess = false;
-    });
+    // const dialogRef = this.matdialog.open(PriviewComponent, {
+    //   width: '50%',
+    //   height: '60vh',
+    //   data: {
+    //     image: this.imgURL,
+    //   },
+    // });
+    // dialogRef.afterClosed().subscribe(() => {
+    //   this.isSaveInProcess = false;
+    // });
   }
 
   clearCanvas() {
@@ -258,18 +250,22 @@ export class SignaturepadComponent {
   }
   openSettings() {
     this.isSettingsOpen = true;
-    const dialogRef = this.matdialog.open(DrawingsettingsComponent, {
-      data: {
-        color: this.strokeColor,
-        strokeWidth: this.strokeWidth,
-      },
-    });
+    // const dialogRef = this.matdialog.open(EditorsettingsComponent, {
+    //   data: {
+    //     color: this.strokeColor,
+    //     strokeWidth: this.strokeWidth,
+    //   },
+    // });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      this.isSettingsOpen = false;
-      this.strokeColor = result.color;
-      this.strokeWidth = result.strokeWidth;
-      this.initializeCanvasStyle();
-    });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   this.isSettingsOpen = false;
+    //   this.strokeColor = result.color;
+    //   this.strokeWidth = result.strokeWidth;
+    //   this.initializeCanvasStyle();
+    // });
   }
+
+  
+
+ 
 }

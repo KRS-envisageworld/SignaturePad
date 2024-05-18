@@ -6,14 +6,19 @@ import {
   OnInit,
   EventEmitter,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ColorPickerModule } from 'ngx-color-picker';
+
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-editorsettings',
   standalone: true,
-  imports: [],
+  imports: [
+    ColorPickerModule,
+    CommonModule
+  ],
   templateUrl: './editorsettings.component.html',
-  styleUrl: './editorsettings.component.scss'
+  styleUrl: './editorsettings.component.scss',
 })
 export class EditorsettingsComponent implements OnInit {
   @Input() color: string = '';
@@ -26,25 +31,11 @@ export class EditorsettingsComponent implements OnInit {
 
     return `${value}`;
   }
- 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public modalData: any,
-    public dialogRef: MatDialogRef<DrawingsettingsComponent>
-  ) {
-    debugger
-    dialogRef.disableClose = true;
-    this.color = modalData.color;
-    this.strokeWidth = modalData.strokeWidth;
 
-  }
 
   ngOnInit(): void {}
 
   selectColor() {
     this.newColor;
-  }
-  closeDialog() {
-    debugger;
-    this.dialogRef.close({ color: this.color, strokeWidth:this.strokeWidth });
   }
 }

@@ -1,5 +1,4 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-priview',
@@ -10,17 +9,27 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class PriviewComponent {
 imgURL:string="";
-@Input() public image:string;
-  constructor(@Inject(MAT_DIALOG_DATA) public modalData:any,
-  public dialogRef: MatDialogRef<ImageEditorComponent>
-  ) { }
-
+@Input() public image:string = "";
+  closeResult: string;
+constructor() {}
   ngOnInit(): void {
     debugger;
     console.log(this.image);
-    this.imgURL = this.modalData.image;
+    this.imgURL = "";
 
   }
+
+  open(content: any) {
+    // this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(
+    //   (result) => {
+    //   debugger
+    //   this.closeResult = `Closed with: ${result}`;
+    // }, (reason: any) => {
+    //   debugger
+    //   this.closeResult = `Dismissed`;
+    // });
+  }
+
   download(){
     var link = document.createElement("a");
 
