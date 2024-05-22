@@ -1,22 +1,24 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon'
 @Component({
   selector: 'app-priview',
   standalone: true,
-  imports: [],
+  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent,MatCardModule,MatIconModule],
   templateUrl: './priview.component.html',
-  styleUrl: './priview.component.scss'
+  styleUrl: './priview.component.scss',
 })
 export class PriviewComponent {
-imgURL:string="";
-@Input() public image:string = "";
+  imgURL: string = '';
   closeResult: string;
-constructor() {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+    this.imgURL = data.image;
+  }
   ngOnInit(): void {
     debugger;
-    console.log(this.image);
-    this.imgURL = "";
-
   }
 
   open(content: any) {
@@ -30,14 +32,13 @@ constructor() {}
     // });
   }
 
-  download(){
-    var link = document.createElement("a");
+  download() {
+    var link = document.createElement('a');
 
     document.body.appendChild(link); // for Firefox
 
-    link.setAttribute("href", this.imgURL);
-    link.setAttribute("download", "mrHankey.jpg");
+    link.setAttribute('href', this.imgURL);
+    link.setAttribute('download', 'mrHankey.jpg');
     link.click();
- 
   }
 }

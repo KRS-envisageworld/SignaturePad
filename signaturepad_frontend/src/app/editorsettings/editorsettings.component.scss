@@ -12,3 +12,32 @@
   top: 11px;
   position: relative;
 }
+
+
+.mat-mdc-slider {
+  max-width: 100%;
+  width: 92%;
+}
+
+
+
+.dvSlider{
+  padding: auto;
+}
+.dvColorpicker{
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+}
+
+
+.example-label-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 10px 0;
+  max-width: 284px;
+}
+
+.example-name-label, .example-value-label {
+  font-weight: 600;
+}

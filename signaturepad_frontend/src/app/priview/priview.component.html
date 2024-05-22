@@ -1,16 +1,15 @@
-<div class="dialog-title">
-  <h2>Preview Image</h2>
-  <button (click)="download()">
-    <!-- <mat-icon>download</mat-icon> -->
+<h1 mat-dialog-title>Preview Image</h1>
+<mat-dialog-content>
+  <mat-card class="previewCard">
+    <mat-card-content>
+      <img class="signatureImg box-shadow" [src]="imgURL" #signatureImg />
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button extended color="primary" (click)="download()">
+    <mat-icon>cloud_download</mat-icon>
+    Download
   </button>
-</div>
-<div >
-    <img
-    class="signatureImg box-shadow"
-    [src]="imgURL"
-    #signatureImg
-  />
-</div>
-<div class="footer">
-    <button >Close</button>
-</div>
+  <button mat-stroked-button extended mat-dialog-close color="primary">Close</button>
+</mat-dialog-actions>

@@ -31,7 +31,7 @@ import { SignaturepadComponent } from './signaturepad/signaturepad.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'signaturepad_frontend';
+  title = 'Let\'s Sign';
   version = VERSION.full
   private router: Router = inject(Router)
 

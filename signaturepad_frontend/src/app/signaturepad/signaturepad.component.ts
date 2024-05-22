@@ -3,15 +3,21 @@ import { PriviewComponent } from '../priview/priview.component';
 import { EditorsettingsComponent } from '../editorsettings/editorsettings.component';
 import { CommonModule } from '@angular/common';
 import { ColorPickerModule } from 'ngx-color-picker';
+import {MatIconModule} from '@angular/material/icon'
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogModule,
+} from '@angular/material/dialog';
 @Component({
   selector: 'app-signaturepad',
   standalone: true,
-  imports: [CommonModule,ColorPickerModule],
+  imports: [CommonModule, ColorPickerModule, MatDialogModule,MatIconModule],
   templateUrl: './signaturepad.component.html',
-  styleUrl: './signaturepad.component.scss'
+  styleUrl: './signaturepad.component.scss',
 })
 export class SignaturepadComponent {
-@ViewChild('canvas', { static: true }) canvas!: ElementRef;
+  @ViewChild('canvas', { static: true }) canvas!: ElementRef;
   canvasContext: any;
   clearButton: any;
   saveButton: any;
@@ -36,6 +42,7 @@ export class SignaturepadComponent {
     dest_y: 0,
   };
   canvasObj: HTMLCanvasElement;
+  constructor(private matdialog: MatDialog) {}
 
   initializeCanvasStyle() {
     if (this.canvasContext) {
@@ -54,40 +61,9 @@ export class SignaturepadComponent {
     this.bErasing = !this.bErasing;
   }
 
-  fnUndo() {
-    debugger;
-    while (this.undo.length) {
-      let trackObj: any = this.undo.pop();
-      this.strokeColor = trackObj.color;
-      this.lineWidth = trackObj.line;
-      this.x_cordinate = trackObj.source_x;
-      this.y_cordinate = trackObj.source_y;
-
-      this.initializeCanvasStyle();
-      this.canvasContext.beginPath();
-      this.canvasContext.moveTo(this.x_cordinate, this.y_cordinate);
-
-      this.x_cordinate = trackObj.dest_x;
-      this.y_cordinate = trackObj.dest_y;
-      this.canvasContext.clearRect(
-        this.x_cordinate,
-        this.y_cordinate,
-        this.canvasObj.width,
-        this.canvasObj.height
-      );
-      this.canvasContext.stroke();
-      this.redo.push(trackObj);
-    }
-  }
-  fnRedo() {
-    let trackObj = this.redo.pop();
-    if (trackObj) {
-      this.undo.push(trackObj);
-    }
-  }
   ngOnInit(): void {
     this.canvasObj = this.canvas.nativeElement;
-    this.canvasObj.width = window.outerWidth - 30;
+    this.canvasObj.width = window.outerWidth - 250;
     this.canvasObj.height = window.outerHeight - 300;
 
     this.canvasContext = this.canvasObj.getContext('2d');
@@ -128,7 +104,7 @@ export class SignaturepadComponent {
       },
       false
     );
-    
+
     this.canvasObj.addEventListener(
       'touchmove',
       (e: TouchEvent) => {
@@ -158,10 +134,7 @@ export class SignaturepadComponent {
       },
       false
     );
-
   }
-
-
   getTrackEntry() {
     this.track = {
       color: this.strokeColor,
@@ -184,7 +157,6 @@ export class SignaturepadComponent {
   }
 
   onMouseMove(event: MouseEvent) {
- 
     event.preventDefault();
     if (this.mouseDown) {
       this.getCursorPositionOnPad(event);
@@ -222,21 +194,6 @@ export class SignaturepadComponent {
         ? 0
         : touchEvent.touches[0].pageY - rect.top;
   }
-  saveImage() {
-    this.isSaveInProcess = true;
-    this.imgURL = this.canvasObj.toDataURL('image/png');
-
-    // const dialogRef = this.matdialog.open(PriviewComponent, {
-    //   width: '50%',
-    //   height: '60vh',
-    //   data: {
-    //     image: this.imgURL,
-    //   },
-    // });
-    // dialogRef.afterClosed().subscribe(() => {
-    //   this.isSaveInProcess = false;
-    // });
-  }
 
   clearCanvas() {
     this.canvasContext.beginPath();
@@ -250,22 +207,44 @@ export class SignaturepadComponent {
   }
   openSettings() {
     this.isSettingsOpen = true;
-    // const dialogRef = this.matdialog.open(EditorsettingsComponent, {
-    //   data: {
-    //     color: this.strokeColor,
-    //     strokeWidth: this.strokeWidth,
-    //   },
-    // });
+    const config = new MatDialogConfig();
+    config.data = {
+      color: this.strokeColor,
+      strokeWidth: this.strokeWidth,
+    };
+    const dialogRef = this.matdialog.open(EditorsettingsComponent, {
+      data: {
+        color: this.strokeColor,
+        strokeWidth: this.strokeWidth,
+      },
+    });
 
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   this.isSettingsOpen = false;
-    //   this.strokeColor = result.color;
-    //   this.strokeWidth = result.strokeWidth;
-    //   this.initializeCanvasStyle();
-    // });
+    dialogRef.componentInstance.selectedColor.subscribe((data) => {
+      this.strokeColor = data['newColor'];
+      this.strokeWidth = data['strokeWidth'];
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.isSettingsOpen = false;
+      this.initializeCanvasStyle();
+    });
   }
 
-  
+  saveImage() {
+    this.isSaveInProcess = true;
+    this.imgURL = this.canvasObj.toDataURL('image/png');
+    const modelWidth = window.innerWidth < 600 ? '60%' : '50%';
+    const modelHeight = window.innerHeight > 705 ? '58vh' : '66vh';
 
- 
+    const dialogRef = this.matdialog.open(PriviewComponent, {
+      width: modelWidth,
+      height: modelHeight,
+      data: {
+        image: this.imgURL,
+      },
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.isSaveInProcess = false;
+    });
+  }
 }

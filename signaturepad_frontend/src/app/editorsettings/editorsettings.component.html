@@ -1,38 +1,38 @@
 <h1 mat-dialog-title>Settings</h1>
-<div mat-dialog-content>
-  <!-- <span
-  class="colorSelection ms-auto"
-  [cpOKButton]="true"
-  [cpSaveClickOutside]="false"
-  [cpOKButtonClass]="'btn btn-primary btn-xs'"
-  [cpCancelButton]="true"
-  [cpOutputFormat]="'hex'"
-  cpPosition="auto"
-  title="Colors"
-></span> -->
-<input  class="colorSelection ms-auto" [value]="color"
-[cpOKButtonClass]="'btn btn-primary btn-xs'"
-       [style.background]="color"
-       [cpOKButton]="true"
-       [cpSaveClickOutside]="false"
-       [(colorPicker)]="color"
-       [cpOutputFormat]="'hex'"
-  cpPosition="auto"
-  title="Colors"
-  />
-
-          <div layout="row">
-            <span flex class="subHeaderFont">Stoke Width</span>
-            <div flex>
-
-            
-            <!-- <mat-slider min="1" max="50" showTickMarks discrete [displayWith]="formatLabel.bind(this)"  [ariaValueNow]="strokeWidth"> -->
-              <!-- <input matSliderThumb> -->
-            <!-- </mat-slider> -->
-            <span class="subHeaderFont">{{strokeWidth}}</span>
-          </div>
+<mat-dialog-content>
+  <mat-card class="example-result-card">
+    <mat-card-content>
+      <div class="dvColorpicker">
+        <span
+          [style.background]="color"
+          [cpToggle]="true"
+          [cpDialogDisplay]="'inline'"
+          [(colorPicker)]="color"
+          [cpHeight]="colorPickerHeight"
+          [cpDisableInput]="true"
+          [cpOutputFormat]="'auto'"
+          (colorPickerChange)="selectColor($event)"
+        ></span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="dvSlider">
+        <div class="example-label-container">
+          <label id="example-name-label" class="example-name-label"
+            >Stoke Width</label>
+          <label class="example-value-label">{{ slider.value }}</label>
         </div>
-</div>
-<!-- <mat-dialog-actions align="end"> -->
-  <button mat-raised-button color="warn" mat-dialog-close >Close</button>
-  <!-- </mat-dialog-actions> -->
+        <mat-slider
+          min="1"
+          max="50"
+          [step]="step"
+          [discrete]="thumbLabel"
+          discrete
+          [displayWith]="formatLabel.bind(this)"
+          [ariaValueNow]="strokeWidth"
+        >
+          <input matSliderThumb #slider (input)="onInputChange($event)"/>
+        </mat-slider>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
