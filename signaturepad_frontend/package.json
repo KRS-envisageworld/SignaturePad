@@ -19,6 +19,8 @@
     "@ng-bootstrap/ng-bootstrap": "^16.0.0-rc.2",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "guid-typescript": "^1.0.9",
+    "ngx-bootstrap": "^12.0.0",
     "ngx-color-picker": "^16.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

@@ -1,38 +1,18 @@
-<h1 mat-dialog-title>Settings</h1>
-<mat-dialog-content>
-  <mat-card class="example-result-card">
-    <mat-card-content>
-      <div class="dvColorpicker">
-        <span
-          [style.background]="color"
-          [cpToggle]="true"
-          [cpDialogDisplay]="'inline'"
-          [(colorPicker)]="color"
-          [cpHeight]="colorPickerHeight"
-          [cpDisableInput]="true"
-          [cpOutputFormat]="'auto'"
-          (colorPickerChange)="selectColor($event)"
-        ></span>
-      </div>
-      <mat-divider></mat-divider>
-      <div class="dvSlider">
-        <div class="example-label-container">
-          <label id="example-name-label" class="example-name-label"
-            >Stoke Width</label>
-          <label class="example-value-label">{{ slider.value }}</label>
-        </div>
-        <mat-slider
-          min="1"
-          max="50"
-          [step]="step"
-          [discrete]="thumbLabel"
-          discrete
-          [displayWith]="formatLabel.bind(this)"
-          [ariaValueNow]="strokeWidth"
-        >
-          <input matSliderThumb #slider (input)="onInputChange($event)"/>
-        </mat-slider>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</mat-dialog-content>
+<div class="dvSlider">
+  <div class="slider-container">
+    <label id="slider-name-label" class="slider-name-label"
+      >Stoke Width</label>
+    <label class="slider-value-label">{{ slider.value }}</label>
+  </div>
+  <mat-slider
+    min="1"
+    max="25"
+    [step]="step"
+    [discrete]="thumbLabel"
+    [displayWith]="formatLabel.bind(this)"
+    [ariaValueNow]="strokeWidth"
+    
+  >
+    <input matSliderThumb #slider (valueChange) = "onInputChange($event)"/>
+  </mat-slider>
+</div>

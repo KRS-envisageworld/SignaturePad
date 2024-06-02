@@ -1,4 +1,4 @@
-import { Component,inject  } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, VERSION } from '@angular/router';
 
@@ -17,7 +17,9 @@ import { SignaturepadComponent } from './signaturepad/signaturepad.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule,
+  imports: [
+    CommonModule,
+    RouterModule,
 
     MatToolbarModule,
     MatButtonModule,
@@ -25,21 +27,22 @@ import { SignaturepadComponent } from './signaturepad/signaturepad.component';
     MatListModule,
     MatIconModule,
     AsyncPipe,
-    SignaturepadComponent
+    SignaturepadComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'Let\'s Sign';
-  version = VERSION.full
-  private router: Router = inject(Router)
+  title = "Let's Sign";
+  version = VERSION.full;
+  private router: Router = inject(Router);
 
   private breakpointObserver = inject(BreakpointObserver);
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches),
+      map((result) => result.matches),
       shareReplay()
     );
 }

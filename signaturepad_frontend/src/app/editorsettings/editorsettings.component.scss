@@ -1,43 +1,14 @@
-.mat-dialog-content{
-    max-height: 81%;
-  //  overflow-y: auto;
-    scrollbar-width: thin;
-}
-
-.ml-5{
-  margin-left: 5px;
-}
-.subHeaderFont{
-  font-weight: 600;
-  top: 11px;
-  position: relative;
-}
-
-
-.mat-mdc-slider {
-  max-width: 100%;
-  width: 92%;
-}
-
-
-
 .dvSlider{
   padding: auto;
 }
-.dvColorpicker{
-  padding-top: 15px;
-  padding-bottom: 15px;
 
-}
-
-
-.example-label-container {
+.slider-container {
   display: flex;
   justify-content: space-between;
   margin: 20px 10px 0;
   max-width: 284px;
 }
 
-.example-name-label, .example-value-label {
+.slider-name-label, .slider-value-label {
   font-weight: 600;
 }

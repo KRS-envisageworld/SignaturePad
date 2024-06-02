@@ -4,6 +4,7 @@ import { EditorsettingsComponent } from '../editorsettings/editorsettings.compon
 import { CommonModule } from '@angular/common';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {MatIconModule} from '@angular/material/icon'
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import {
   MatDialog,
   MatDialogConfig,
@@ -12,7 +13,7 @@ import {
 @Component({
   selector: 'app-signaturepad',
   standalone: true,
-  imports: [CommonModule, ColorPickerModule, MatDialogModule,MatIconModule],
+  imports: [CommonModule, ColorPickerModule, MatDialogModule,MatIconModule,PopoverModule,EditorsettingsComponent],
   templateUrl: './signaturepad.component.html',
   styleUrl: './signaturepad.component.scss',
 })
@@ -31,17 +32,7 @@ export class SignaturepadComponent {
   bErasing: boolean = false;
   isSettingsOpen: boolean = false;
   isSaveInProcess: boolean = false;
-  undo: object[] = [];
-  redo: object[] = [];
-  track: any = {
-    color: '',
-    line: 0,
-    source_x: 0,
-    source_y: 0,
-    dest_x: 0,
-    dest_y: 0,
-  };
-  canvasObj: HTMLCanvasElement;
+   canvasObj: HTMLCanvasElement;
   constructor(private matdialog: MatDialog) {}
 
   initializeCanvasStyle() {
@@ -54,9 +45,6 @@ export class SignaturepadComponent {
     }
   }
 
-  InitializeTrack() {
-    this.getTrackEntry();
-  }
   enableEraser() {
     this.bErasing = !this.bErasing;
   }
@@ -135,25 +123,10 @@ export class SignaturepadComponent {
       false
     );
   }
-  getTrackEntry() {
-    this.track = {
-      color: this.strokeColor,
-      line: this.lineWidth,
-      source_x: this.x_cordinate,
-      source_y: this.y_cordinate,
-      dest_x: 0,
-      dest_y: 0,
-    };
-  }
 
   MouseUp(event: MouseEvent) {
     event.preventDefault();
-    this.undo.push(this.track);
     this.mouseDown = false;
-    this.track.dest_x = this.x_cordinate;
-    this.track.dest_y = this.y_cordinate;
-    this.undo.push(this.track);
-    this.InitializeTrack();
   }
 
   onMouseMove(event: MouseEvent) {
@@ -175,9 +148,6 @@ export class SignaturepadComponent {
     this.getCursorPositionOnPad(event);
     this.canvasContext.beginPath();
     this.canvasContext.moveTo(this.x_cordinate, this.y_cordinate);
-    this.getTrackEntry();
-    this.track.source_x = this.x_cordinate;
-    this.track.source_y = this.y_cordinate;
     this.mouseDown = true;
   }
 
@@ -205,29 +175,9 @@ export class SignaturepadComponent {
     );
     this.imgURL = '';
   }
-  openSettings() {
-    this.isSettingsOpen = true;
-    const config = new MatDialogConfig();
-    config.data = {
-      color: this.strokeColor,
-      strokeWidth: this.strokeWidth,
-    };
-    const dialogRef = this.matdialog.open(EditorsettingsComponent, {
-      data: {
-        color: this.strokeColor,
-        strokeWidth: this.strokeWidth,
-      },
-    });
-
-    dialogRef.componentInstance.selectedColor.subscribe((data) => {
-      this.strokeColor = data['newColor'];
-      this.strokeWidth = data['strokeWidth'];
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.isSettingsOpen = false;
-      this.initializeCanvasStyle();
-    });
+  openSettings(data:number) {
+    this.strokeWidth = data;
+    this.initializeCanvasStyle();
   }
 
   saveImage() {

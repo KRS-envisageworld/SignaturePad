@@ -21,8 +21,11 @@ main {
 .active{
 	color:black !important;
 }
+.active:hover{
+	color:black !important;
+}
 .erase:hover {
-	cursor: url("../../assets/eraser.png"), auto !important;
+	cursor: url("../../assets/eraser.png"), auto;
   }
   .icon{
 	color: darkgray;
@@ -38,9 +41,6 @@ main {
     color: black;
 }
 
-.active:hover{
-	color:black !important;
-}
 
 .signatureImg {
 	width: 30%;
@@ -48,23 +48,16 @@ main {
 	border: 1px solid black;
 }
 
-.track {
-	display: flex;
-	flex-direction: column;
+.dvAction {
+	justify-content: center;
+	width: 100%;
+	display: table;
+	text-align: center;
 }
 
-.dvAction {
-	// position: absolute;
-	// left: 0;
-	// right: 0;
-	// height: 60px;
-	// display: flex;
-	// align-items: center;
-	// color: white;
-	// justify-content: flex-end;
-	// font-weight: 600;
-	margin-left: 20px;
-	margin-right : 20px;
+.dvAction button,span{
+	display: inline-block;
+	float: none;
 }
 
 .colorSelection{
@@ -76,4 +69,8 @@ main {
     border-radius: 50%;
 	cursor: pointer;
 	margin-right: 10px;
+}
+
+canvas:focus-visible {
+    outline: -webkit-focus-ring-color auto 1px;
 }

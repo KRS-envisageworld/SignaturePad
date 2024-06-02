@@ -1,3 +1,7 @@
+<ng-template #popTemplate>
+  <app-editorsettings [strokeWidth]="strokeWidth" (selectedStrokeWidth)="openSettings($event)"></app-editorsettings>
+</ng-template>
+
 <section class="signaturepad">
   <div class="d-flex flex-column">
     <div class="hstack gap-1 dvAction">
@@ -19,7 +23,9 @@
         mat-icon-button
         class="icon"
         title="Settings"
-        (click)="openSettings()"
+        [popover]="popTemplate"
+        placement="bottom"
+        popover-trigger="'outsideClick'"
       >
         <mat-icon class="btnsettings" [ngClass]="{ active: isSettingsOpen }"
           >settings</mat-icon
@@ -85,8 +91,8 @@
     </div>
 
     <div class="d-flex justify-content-center" style="border-radius: 21px">
-      <div class="drawing-area" [ngClass]="{ erase: bErasing }">
-        <canvas #canvas id="drawing-area" height="300"></canvas>
+      <div class="drawing-area" >
+        <canvas #canvas id="drawing-area" [ngClass]="bErasing?'erase':'active'" height="300"></canvas>
       </div>
     </div>
   </div>
